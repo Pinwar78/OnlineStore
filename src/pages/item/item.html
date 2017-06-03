@@ -1,0 +1,110 @@
+<ion-header>
+   <ion-navbar>
+     <button ion-button icon-only menuToggle>
+         <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-buttons start>
+        <button ion-button icon-only>
+          <ion-icon name="search"></ion-icon>
+        </button>
+      </ion-buttons>
+
+    <ion-title>
+      Online Store
+    </ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openCart()">
+        <ion-icon name="cart"></ion-icon>
+      </button>
+    </ion-buttons>
+ </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>{{selectedItem.brand}} {{selectedItem.model}}</h2>
+  <p>Brand: {{selectedItem.brand}}</p>
+
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let img of selectedItem.pics.pic_names">
+      <img src="../../assets/img/item_imgs/{{selectedItem.id}}/{{img}}"/>
+    </ion-slide>
+  </ion-slides>
+
+  <h2>{{selectedItem.price | currency}}</h2>
+  <p>ID: {{selectedItem.id}}</p>
+
+  <ion-card>
+    <ion-list>
+      <ion-item class="quantitySelect">
+        <ion-icon item-left name="remove-circle" (click)="decrementQuantity()"></ion-icon>
+        {{selectedQuantity}}
+        <ion-icon item-right name="add-circle" (click)="incrementQuantity()"></ion-icon>
+    </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <button ion-button block (click)="this.cartSvc.addToCart(selectedItem.id, selectedQuantity); openCart()">
+    Add to cart
+  </button>
+
+<ion-card>
+  <button ion-item class="item-stable"
+            (click)="toggleSpecsShow()"
+            [ngClass]="{active: isSpecsShown}">
+    <ion-icon item-right [name]="isSpecsShown ? 'remove' : 'add'"></ion-icon>
+    Specifications
+  </button>
+
+  <ion-list [hidden]="!isSpecsShown">
+    <ion-item>
+      <p>Brand: {{selectedItem.brand}}</p>
+    </ion-item>
+
+  <ion-item>
+    <p>Model: {{selectedItem.model}}</p>
+  </ion-item>
+
+  <ion-item *ngFor="let spec of selectedItem.specs">
+    <p>{{spec.name}}: {{spec.value}}</p>
+  </ion-item>
+
+  </ion-list>
+</ion-card>
+
+<ion-card>
+  <button ion-item class="item-stable"
+            (click)="toggleDescShow()"
+            [ngClass]="{active: isDescShown}">
+    <ion-icon item-right [name]="isDescShown ? 'remove' : 'add'"></ion-icon>
+    Description
+  </button>
+
+  <ion-list [hidden]="!isDescShown">
+    <ion-item>
+      <p>{{selectedItem.description}}</p>
+    </ion-item>
+  </ion-list>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    Similar Products
+  </ion-card-header>
+    <ion-item *ngFor="let item of similarItems" (click)="openItemPage(item.id)">
+    <h2>
+      {{this.itemsSvc.getItem(item.id)['brand']}} {{this.itemsSvc.getItem(item.id)['model']}}
+    </h2>
+    <p>{{this.itemsSvc.getItem(item.id)['description']}}</p>
+    <h3>
+        {{this.itemsSvc.getItem(item.id)['price'] | currency}}
+    </h3>
+    <ion-thumbnail item-left>
+      <img src="../../assets/img/item_imgs/{{itemsSvc.getItem(item.id)['id']}}/{{itemsSvc.getItem(item.id)['pics'].main}}"/>
+    </ion-thumbnail>
+
+  </ion-item>
+  </ion-card>
+
+
+</ion-content>

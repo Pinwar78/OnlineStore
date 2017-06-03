@@ -1,1 +1,32 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content">
+
+  <ion-content>
+    <ion-list>
+      <button menuClose ion-item (click)="openPage('Home')">
+        Home
+      </button>
+
+      <button ion-item class="item-stable"
+                (click)="toggleCategoriesShow()"
+                [ngClass]="{active: isCategoriesShown}">
+        <ion-icon item-right [name]="isCategoriesShown ? 'arrow-back' : 'arrow-down'"></ion-icon>
+        Categories
+      </button>
+      <button ion-item class="subcategory"
+                menuClose
+                (click)= "openPage('List', { category: category })"
+                *ngFor="let category of itemCategories"
+                [hidden]="!isCategoriesShown"
+                [ngClass]="{'transition':show}">
+        {{category}}
+      </button>
+
+      <button menuClose ion-item (click)="openPage('Cart')">
+        Cart
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav #content [root]="rootPage"></ion-nav>
