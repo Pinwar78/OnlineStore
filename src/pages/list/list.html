@@ -41,7 +41,7 @@
     </ion-card-header>
   </ion-card>
   <ion-card class="items" *ngFor="let item of items | orderBy: sortBy : sortReversed" (click)="openItemPage(item.id)">
-    <img src="../../assets/img/item_imgs/{{item.id}}/{{item.pics.main}}"/>
+    <img src="http://onlinestorecdn.ddns.net/img/item_imgs/{{item.id}}/{{item.pics.main}}"/>
     <ion-card-header>
       {{item.brand}} {{item.model}}
     </ion-card-header>
